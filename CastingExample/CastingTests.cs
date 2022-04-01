@@ -12,54 +12,30 @@ public class CastingTests
     [Fact]
     public void TestMammalCasting()
     {
-        if (_mammal is Animal)
-        {
-            Assert.True(true);
-        }
+        Assert.True(_mammal is Animal);
     }
 
     [Fact]
     public void TestAnimalCasting()
     {
-        if (_animal is Mammal)
-        {
-            Assert.True(true);
-        }
+        Assert.False(_animal is Mammal);
     }
 
     [Fact]
     public void TestGiraffeCasting()
     {
-        if (_giraffe is Mammal)
-        {
-            if (_giraffe is Animal)
-            {
-                Assert.True(true);
-            }
-        }
+        Assert.True(_giraffe is Mammal);
     }
     [Fact]
     public void TestDogCasting()
     {
-        if (_dog is Mammal)
-        {
-            if (_dog is Animal)
-            {
-                Assert.True(true);
-            }
-        }
+        Assert.True(_dog is Animal);
+        Assert.False(_dog is Mammal);
     }
     [Fact]
     public void TestSuperNovaCasting()
     {
-        if (_superNova is Animal)
-        {
-            Assert.True(true);
-        }
-        else
-        {
-            Assert.False(false);
-        }
+        Assert.False(_superNova is Animal);
     }
 
     [Fact]
@@ -72,11 +48,9 @@ public class CastingTests
         }
         //cast the list of an animal to a generic animal
         var animalList = listOfAnimal.Cast<Animal>().ToList();
-
-        if (animalList is List<Animal>)
-        {
-            Assert.True(true);
-        }
+        
+        Assert.True(animalList is List<Animal>);
+        
     }
     
     //Using the as operator
@@ -94,5 +68,44 @@ public class CastingTests
     {
         var g = _dog as Animal;
         Assert.NotNull(g);
+    }
+
+    [Fact]
+    public void TestTypeCastingGirafee()
+    {
+        Animal a = new Giraffe();
+
+        Giraffe g = (Giraffe) a;
+        
+        Assert.Equal(typeof(Giraffe), g.GetType());
+        
+    }
+
+    [Fact]
+    public void TestListCasting2()
+    {
+        List<Animal> listOfAnimals = new List<Animal>();
+        listOfAnimals.Add(_dog);
+        listOfAnimals.Add(_giraffe);
+
+        //can't convert
+        //var a = listOfAnimals as Animal[];
+
+        Animal[] a = new Animal[] { _dog, _giraffe };
+        
+        //Can't convert
+        //var newa = a as List<Animal>
+
+        Assert.Equal(2, a.ToList().Count);
+        Assert.Equal(2, a.ToArray().Length);
+
+    }
+
+    [Fact]
+    public void TestThrowsException()
+    {
+        List<Mammal> listMammal = new List<Mammal>();
+
+        listMammal.ToArray();
     }
 }
