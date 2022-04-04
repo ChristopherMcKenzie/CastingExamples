@@ -105,7 +105,7 @@ public class CastingTests
     public void TestThrowsException()
     {
         List<Mammal> listMammal = new List<Mammal>();
-
-        listMammal.ToArray();
+        
+        Assert.Throws<ArgumentOutOfRangeException>(() => listMammal.RemoveAt(1));
     }
 }
